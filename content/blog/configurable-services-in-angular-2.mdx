@@ -1,0 +1,124 @@
+---
+title: Configurable Services In Angular 2
+date: '2025-04-18'
+description: >-
+  **This post currently reflects an earlier version of Angular, and may not be
+  up to date or reflect the current release. ** Angular 2  has greatly
+  simplified services since  Angular 1 . In Angular 1, there was a service,
+  factory, provider, delegate, value, constant, etc. and it wasn't always clear
+  when to use which.
+tags:
+  - uncategorized
+image: null
+url: 'https://rangle.io/blog/configurable-services-in-angular-2'
+slug: configurable-services-in-angular-2
+---
+
+<div class="css-udzbms"><div class="css-7i1khu"><section class="css-r3fqbs"><p class="css-16cimln">Jul 28, 2016 — Read time: <strong>3 mins</strong></p><div class="css-wyhr2r"><div class="css-1uxw0xd"><div class="css-n3pbl1"><a href="/blog/author/evan-schultz"><span class="ds-figure"><figure class="css-14taefl"><img src="images/configurable-services-in-angular-2-evan.png" alt="" loading="lazy" sizes="(max-width: 360px) , 75px" class="css-7tbaik"></figure></span></a></div><div><a href="/blog/author/evan-schultz"><span class="css-1i82ydo">Evan Schultz</span></a><span class="css-1i82ydo">Technical Director</span></div></div></div><h1>Configurable Services in Angular 2</h1><div class="css-6u2tq1"></div><div class="css-jr2m3h"><p class="ds-large-body">**This post currently reflects an earlier version of Angular, and may not be up to date or reflect the current release. ** Angular 2 has greatly simplified services since Angular 1 . In Angular 1, there was a service, factory, provider, delegate, value, constant, etc. and it wasn't always clear when to use which.</p></div><div class="css-11b6it4"><span class="ds-figure"><figure class="css-14taefl"><img src="images/configurable-services-in-angular-2-feature-photo.gif" alt="Purple and red squares sprawled over a grid" loading="lazy" class="css-4a0506"></figure></span></div><article><div class="css-1q29gwd"><p>**This post currently reflects an earlier version of Angular, and may not be up to date or reflect the current release. **</p><p><a href="https://angular.io" target="_blank" data-on="click" data-event-category="CTA" data-event-action="click" data-event-label="https://angular.io" style="text-decoration:underline" class="css-k1irjw"><span class="ds-link css-aplkc0">Angular 2</span></a> has greatly simplified services since <a href="https://angularjs.org/" target="_blank" data-on="click" data-event-category="CTA" data-event-action="click" data-event-label="https://angularjs.org/" style="text-decoration:underline" class="css-k1irjw"><span class="ds-link css-aplkc0">Angular 1</span></a>. In Angular 1, there was a service, factory, provider, delegate, value, constant, etc. and it wasn't always clear when to use which.<br>For most use cases in Angular 2, services have been greatly simplified. All you need to do is:</p><ul><li class="">Create a class with an @Injectable decorator</li><li class="">Register it as a provider</li></ul><pre style="display:block;overflow-x:auto;background:#fefefe;color:#545454;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span style="color:#7928a1">import</span><span> { Injectable } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'@angular/core'</span><span>;
+</span><span></span><span style="color:#7928a1">import</span><span> { bootstrap } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'@angular/platform-browser-dynamic'</span><span>;
+</span><span></span><span style="color:#7928a1">import</span><span> { MyApp } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'./my-app.component'</span><span>;
+</span>
+<!-- -->@Injectable()
+<span></span><span style="color:#7928a1">export</span><span> </span><span class="hljs-class" style="color:#7928a1">class</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#007faa">MyService</span><span class="hljs-class"> </span><span>{
+</span>
+<span>  </span><span class="hljs-attr">greeting</span><span>:string=</span><span style="color:#008000">'Hello'</span><span>;
+</span>
+<span>  </span><span class="hljs-function" style="color:#007faa">greet</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">name: string</span><span class="hljs-function">)</span><span> {
+</span><span>    </span><span style="color:#7928a1">return</span><span> </span><span style="color:#008000">`</span><span class="hljs-subst" style="color:#008000">${</span><span class="hljs-subst" style="color:#aa5d00">this</span><span class="hljs-subst" style="color:#008000">.greeting}</span><span style="color:#008000"> </span><span class="hljs-subst" style="color:#008000">${name}</span><span style="color:#008000">`</span><span>;
+</span>  }
+<!-- -->}
+<!-- -->
+<!-- -->bootstrap(MyApp,[MyService])
+</code></pre><p>Making use of this service in your component is pretty straight forward. Taking a quick look at our <span class="ds-code-highlight">MyApp</span>,</p><pre style="display:block;overflow-x:auto;background:#fefefe;color:#545454;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span style="color:#7928a1">import</span><span> { Component, OnInit } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'@angular/core'</span><span>;
+</span><span></span><span style="color:#7928a1">import</span><span> { MyService } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'./my-service'</span><span>;
+</span>
+<!-- -->@Component({
+<span>  </span><span class="hljs-attr">selector</span><span>: </span><span style="color:#008000">'my-app'</span><span>,
+</span><span>  </span><span class="hljs-attr">template</span><span>: </span><span style="color:#008000">`&lt;div&gt;{{greeting}}&lt;/div&gt;`</span><span>
+</span>})
+<span></span><span style="color:#7928a1">export</span><span> </span><span class="hljs-class" style="color:#7928a1">class</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#007faa">MyApp</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#007faa">implements</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#007faa">OnInit</span><span class="hljs-class"> </span><span>{
+</span><span>  </span><span class="hljs-attr">value</span><span>: number;
+</span><span>  </span><span class="hljs-function" style="color:#007faa">constructor</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">private _myService:MyService</span><span class="hljs-function">)</span><span> { }
+</span>
+<span>  </span><span class="hljs-function" style="color:#007faa">ngOnInit</span><span class="hljs-function">(</span><span class="hljs-function">)</span><span> {
+</span><span>    </span><span style="color:#aa5d00">this</span><span>.greeting = </span><span style="color:#aa5d00">this</span><span>._myService.greet(</span><span style="color:#008000">'Evan Schultz'</span><span>);
+</span>  }
+<!-- -->}
+</code></pre><p><a href="http://plnkr.co/edit/IgA0km2anTy2Est33yEf?p=preview" target="_blank" data-on="click" data-event-category="CTA" data-event-action="click" data-event-label="http://plnkr.co/edit/IgA0km2anTy2Est33yEf?p=preview" style="text-decoration:underline" class="css-k1irjw"><span class="ds-link css-aplkc0">View Example</span></a></p><p>However, what if you wanted to be able to change the greeting from "Hello" to something else and wanted to be able to configure this when registering the provider with your application or component? With the <a href="https://angular.io/docs/ts/latest/guide/router.html" target="_blank" data-on="click" data-event-category="CTA" data-event-action="click" data-event-label="https://angular.io/docs/ts/latest/guide/router.html" style="text-decoration:underline" class="css-k1irjw"><span class="ds-link css-aplkc0">new router in Angular 2</span></a>, you may have seen something like:</p><pre style="display:block;overflow-x:auto;background:#fefefe;color:#545454;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span style="color:#7928a1">import</span><span> { provideRouter } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'@angular/router'</span><span>;
+</span><span></span><span style="color:#7928a1">import</span><span> { APP_ROUTES } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'./my.routes'</span><span>;
+</span>
+<!-- -->bootstrap(MyApp,[provideRouter(APP_ROUTES)]);
+</code></pre><p>This is a way of providing some router configuration to the router services in Angular 2. So, let's take a look at how we can create a service that takes some configuration.</p><p>Let's modify our service so we provide a greeting to it at the bootstrap time of the application.</p><pre style="display:block;overflow-x:auto;background:#fefefe;color:#545454;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span style="color:#7928a1">import</span><span> { Injectable } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'@angular/core'</span><span>;
+</span>
+<!-- -->@Injectable()
+<span></span><span style="color:#7928a1">export</span><span> </span><span class="hljs-class" style="color:#7928a1">class</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#007faa">MyService</span><span class="hljs-class"> </span><span>{
+</span>
+<span>  </span><span class="hljs-function" style="color:#007faa">constructor</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">private greeting:string=</span><span class="hljs-function" style="color:#008000">'Hello'</span><span class="hljs-function">)</span><span> { }
+</span>
+<span>  </span><span class="hljs-function" style="color:#007faa">greet</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">name: string</span><span class="hljs-function">)</span><span> {
+</span><span>    </span><span style="color:#7928a1">return</span><span> </span><span style="color:#008000">`</span><span class="hljs-subst" style="color:#008000">${</span><span class="hljs-subst" style="color:#aa5d00">this</span><span class="hljs-subst" style="color:#008000">.greeting}</span><span style="color:#008000"> </span><span class="hljs-subst" style="color:#008000">${name}</span><span style="color:#008000">`</span><span>;
+</span>  }
+<!-- -->}
+</code></pre><p>If we were to leave our code as is, any component that tries to use <span class="ds-code-highlight">MyService</span> would complain that there is no provider registered for <span class="ds-code-highlight">String</span>. If you <a href="http://plnkr.co/edit/IgA0km2anTy2Est33yEf?p=preview" target="_blank" data-on="click" data-event-category="CTA" data-event-action="click" data-event-label="http://plnkr.co/edit/IgA0km2anTy2Est33yEf?p=preview" style="text-decoration:underline" class="css-k1irjw"><span class="ds-link css-aplkc0">view the example</span></a> and look at the error logs, you will see this issue.</p><p>How do we work around this? We need to create a way for users to register the service with this configuration provided.</p><p>To do that, we will create a function called <span class="ds-code-highlight">provideMyService</span>, that will use return a provider object that Angular 2 will use to create a provider during the bootstrap phase of the application. This object can let you specify a token or class that you want to create a provider for, and instruct Angular 2 on how to form this object. There are a few options - <span class="ds-code-highlight">useClass</span>, <span class="ds-code-highlight">useValue</span>, <span class="ds-code-highlight">useExisting</span>, <span class="ds-code-highlight">useFactory</span>, etc. The use case we are interested in here is <span class="ds-code-highlight">useFactory</span>.</p><pre style="display:block;overflow-x:auto;background:#fefefe;color:#545454;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span style="color:#7928a1">export</span><span> </span><span class="hljs-function" style="color:#7928a1">function</span><span class="hljs-function"> </span><span class="hljs-function" style="color:#007faa">provideMyService</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">greeting:string</span><span class="hljs-function">) </span><span>{
+</span><span>  </span><span style="color:#7928a1">return</span><span> { </span><span class="hljs-attr">provide</span><span>: MyService, </span><span class="hljs-attr">useFactory</span><span>: </span><span class="hljs-function">() =&gt;</span><span> </span><span style="color:#7928a1">new</span><span> MyService(greeting) }
+</span>}
+</code></pre><p>Then, to use this in our application we change the bootstrap code slightly:</p><pre style="display:block;overflow-x:auto;background:#fefefe;color:#545454;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span style="color:#7928a1">import</span><span> { bootstrap } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'@angular/platform-browser-dynamic'</span><span>;
+</span><span></span><span style="color:#7928a1">import</span><span> { MyApp } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'./my-app.component.ts'</span><span>;
+</span><span></span><span style="color:#7928a1">import</span><span> { provideMyService } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'./my-service.ts'</span><span>;
+</span>
+<span>bootstrap(MyApp, [provideMyService(</span><span style="color:#008000">'Good Day'</span><span>)]);
+</span></code></pre><p><a href="http://plnkr.co/edit/5AXdDI66iAVGukHmnLIw?p=preview" target="_blank" data-on="click" data-event-category="CTA" data-event-action="click" data-event-label="http://plnkr.co/edit/5AXdDI66iAVGukHmnLIw?p=preview" style="text-decoration:underline" class="css-k1irjw"><span class="ds-link css-aplkc0">View Example</span></a></p><p>What we are telling Angular 2 now, is whenever we are injecting <span class="ds-code-highlight">MyService</span>, is to use a factory function that will return an instance of <span class="ds-code-highlight">MyService</span> with the provided configuration.</p><p>Now, what happens if <span class="ds-code-highlight">MyService</span> depends on another service that we want to inject? That is where the <span class="ds-code-highlight">deps</span> property in our provide comes in. Let's make a Greeter service that will turn our greeting into caps.</p><pre style="display:block;overflow-x:auto;background:#fefefe;color:#545454;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span style="color:#7928a1">import</span><span> { Injectable } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'@angular/core'</span><span>;
+</span>
+<!-- -->@Injectable()
+<span></span><span style="color:#7928a1">export</span><span> </span><span class="hljs-class" style="color:#7928a1">class</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#007faa">Greeter</span><span class="hljs-class"> </span><span>{
+</span><span>   </span><span class="hljs-function" style="color:#007faa">greet</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">greeting:string</span><span class="hljs-function">)</span><span> {
+</span><span>     </span><span style="color:#7928a1">return</span><span> greeting;
+</span>   }
+<!-- -->}
+<!-- -->@Injectable()
+<span></span><span style="color:#7928a1">export</span><span> </span><span class="hljs-class" style="color:#7928a1">class</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#007faa">LoudGreeter</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#7928a1">extends</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#007faa">Greeter</span><span class="hljs-class"> </span><span>{
+</span><span>  </span><span class="hljs-function" style="color:#007faa">greet</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">greeting:string</span><span class="hljs-function">)</span><span> {
+</span><span>    </span><span style="color:#7928a1">return</span><span> greeting.toUpperCase()
+</span>  }
+<!-- -->}
+<!-- -->
+<!-- -->@Injectable()
+<span></span><span style="color:#7928a1">export</span><span> </span><span class="hljs-class" style="color:#7928a1">class</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#007faa">QuietGreeter</span><span class="hljs-class"> </span><span>{
+</span><span>  </span><span class="hljs-function" style="color:#007faa">greet</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">greeting:string</span><span class="hljs-function">)</span><span> {
+</span><span>    </span><span style="color:#7928a1">return</span><span> greeting.toLowerCase()
+</span>  }
+<!-- -->}
+</code></pre><p>Then a quick adjustment to our <span class="ds-code-highlight">MyService</span> class:</p><pre style="display:block;overflow-x:auto;background:#fefefe;color:#545454;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span style="color:#7928a1">import</span><span> { Injectable, provide } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'@angular/core'</span><span>;
+</span><span></span><span style="color:#7928a1">import</span><span> { Greeter } </span><span style="color:#7928a1">from</span><span> </span><span style="color:#008000">'./greeter'</span><span>;
+</span>@Injectable()
+<span></span><span style="color:#7928a1">export</span><span> </span><span class="hljs-class" style="color:#7928a1">class</span><span class="hljs-class"> </span><span class="hljs-class" style="color:#007faa">MyService</span><span class="hljs-class"> </span><span>{
+</span>
+<span>  </span><span class="hljs-function" style="color:#007faa">constructor</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">private greeting:string=</span><span class="hljs-function" style="color:#008000">'Hello'</span><span class="hljs-function" style="color:#aa5d00">, private greeter: Greeter</span><span class="hljs-function">)</span><span> {
+</span>
+<!-- -->  }
+<!-- -->
+<span>  </span><span class="hljs-function" style="color:#007faa">greet</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">name:string</span><span class="hljs-function">)</span><span> {
+</span><span>    </span><span style="color:#7928a1">return</span><span> </span><span style="color:#aa5d00">this</span><span>.greeter.greet(</span><span style="color:#008000">`</span><span class="hljs-subst" style="color:#008000">${</span><span class="hljs-subst" style="color:#aa5d00">this</span><span class="hljs-subst" style="color:#008000">.greeting}</span><span style="color:#008000"> </span><span class="hljs-subst" style="color:#008000">${name}</span><span style="color:#008000">`</span><span>);
+</span>  }
+<!-- -->}
+</code></pre><p>As it stands now, without modifying our provideMyService, we would get an error that <span class="ds-code-highlight">greeter</span> is undefined, this is because we are manually creating a new instance of <span class="ds-code-highlight">MyService</span>, passing in our greeting - but none of our other dependencies.</p><p>To fix that, we can make a quick fix to our <span class="ds-code-highlight">provideMyService</span> to indicate that <span class="ds-code-highlight">Greeter</span> is a dependency.</p><pre style="display:block;overflow-x:auto;background:#fefefe;color:#545454;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span style="color:#7928a1">export</span><span> </span><span class="hljs-function" style="color:#7928a1">function</span><span class="hljs-function"> </span><span class="hljs-function" style="color:#007faa">provideMyService</span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">greeting:string</span><span class="hljs-function">) </span><span>{
+</span><span>  </span><span style="color:#7928a1">return</span><span> { </span><span class="hljs-attr">provide</span><span>:MyService,
+</span><span>           </span><span class="hljs-attr">useFactory</span><span>: </span><span class="hljs-function">(</span><span class="hljs-function" style="color:#aa5d00">greeter:Greeter</span><span class="hljs-function">) =&gt;</span><span> </span><span style="color:#7928a1">new</span><span> MyService(greeting, greeter),
+</span><span>           </span><span class="hljs-attr">deps</span><span>: [Greeter]
+</span>         }
+<!-- -->}
+</code></pre><p>And, in the bootstrapping of our application - we can now register the default greeter, or replace it with a quiet or loud greeter.</p><pre style="display:block;overflow-x:auto;background:#fefefe;color:#545454;padding:0.5em"><code class="language-javascript" style="white-space:pre"><span style="color:#696969">// default greeter</span><span>
+</span><span>bootstrap(App, [provideMyService(</span><span style="color:#008000">'Good Day'</span><span>), Greeter]);
+</span>
+<span></span><span style="color:#696969">// loud greeter</span><span>
+</span>bootstrap(MyApp, [
+<span>  provideMyService(</span><span style="color:#008000">'Good Day'</span><span>),
+</span><span>  { </span><span class="hljs-attr">provide</span><span>: Greeter, </span><span class="hljs-attr">useClass</span><span>: LoudGreeter }
+</span>  ]);
+<!-- -->
+<span></span><span style="color:#696969">// quiet greeter</span><span>
+</span>bootstrap(MyApp, [
+<span>  provideMyService(</span><span style="color:#008000">'Good Day'</span><span>),
+</span><span>  { </span><span class="hljs-attr">provide</span><span>: Greeter, </span><span class="hljs-attr">useClass</span><span>: QuietGreeter }
+</span>  ]);
+</code></pre><p><a href="http://plnkr.co/edit/3wjAmI21d8B4nTz6xcDT?p=preview" target="_blank" data-on="click" data-event-category="CTA" data-event-action="click" data-event-label="http://plnkr.co/edit/3wjAmI21d8B4nTz6xcDT?p=preview" style="text-decoration:underline" class="css-k1irjw"><span class="ds-link css-aplkc0">View Example</span></a></p><p>While the creation of services in Angular 2 has been simplified, it is still very flexible in how you are able to use it for more advanced use cases.</p></div></article></section></div></div>
