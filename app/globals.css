@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light theme */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  [data-theme="dark"] {
+    /* Cyberpunk-inspired dark theme */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 300 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 180 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 60 100% 50%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 0%;
+    --border: 300 100% 50%;
+    --input: 0 0% 10%;
+    --ring: 300 100% 50%;
+    --radius: 0.25rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground transition-colors duration-300;
+  }
+}
+
+@layer components {
+  /* Cyberpunk styling for dark mode */
+  .dark h1,
+  .dark h2,
+  .dark h3 {
+    @apply font-mono;
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+  }
+
+  /* Optional scanline effect - can be added to specific containers */
+  .scanlines {
+    @apply pointer-events-none fixed inset-0 z-50 opacity-10 hidden;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+  }
+
+  .dark .scanlines {
+    @apply block;
+  }
+
+  /* Glow effects for links and buttons in dark mode */
+  .dark a:hover,
+  .dark button:hover {
+    text-shadow: 0 0 5px currentColor;
+  }
+
+  /* Terminal-style container for dark mode */
+  .terminal {
+    @apply border-2 p-4 rounded-none;
+  }
+
+  .dark .terminal {
+    @apply border-[#FF00FF] bg-black text-white;
+    box-shadow: 0 0 10px #ff00ff, inset 0 0 10px #ff00ff;
+  }
+
+  /* Digital Garden specific styles */
+  .note-seedling {
+    @apply border-l-4 border-green-400 pl-4;
+  }
+
+  .note-budding {
+    @apply border-l-4 border-yellow-400 pl-4;
+  }
+
+  .note-evergreen {
+    @apply border-l-4 border-blue-400 pl-4;
+  }
+
+  /* MDX content styles */
+  .mdx-content {
+    @apply prose prose-zinc dark:prose-invert max-w-none;
+  }
+
+  .dark .mdx-content {
+    @apply prose-headings:text-[#FF00FF] prose-a:text-[#00FFFF] prose-a:no-underline prose-a:hover:underline;
+  }
+
+  /* Code syntax highlighting */
+  pre {
+    @apply p-4 rounded-md overflow-auto;
+  }
+
+  .dark pre {
+    @apply border border-[#FF00FF] bg-black;
+    box-shadow: 0 0 5px #ff00ff;
+  }
+
+  /* Cyberpunk card styling */
+  .dark .cyber-card {
+    @apply border-[#FF00FF] bg-black;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+  }
+
+  /* Neon text effect */
+  .neon-text {
+    @apply text-[#FF00FF] font-mono;
+  }
+
+  .dark .neon-text {
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+  }
+
+  /* Neon border effect */
+  .neon-border {
+    @apply border-2 border-[#FF00FF];
+  }
+
+  .dark .neon-border {
+    box-shadow: 0 0 5px #ff00ff;
+  }
+}
